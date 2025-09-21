@@ -1,4 +1,4 @@
-# Импорт необходимых библиотек
+
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
@@ -46,9 +46,7 @@ def load_and_preprocess_data(file_path: str):
     return df
 
 def train_and_evaluate_model(model, X_train, y_train, X_test, y_test):
-    """
-    Обучает и возвращает предсказания и метрики модели.
-    """
+    
     model.fit(X_train, y_train)
     predictions = model.predict(X_test)
     
@@ -59,9 +57,6 @@ def train_and_evaluate_model(model, X_train, y_train, X_test, y_test):
     return predictions, accuracy, conf_matrix, class_report
 
 def visualize_confusion_matrix(y_true, y_pred, title, class_names=['Хорошее', 'Плохое']):
-    """
-    Визуализирует матрицу ошибок с процентами.
-    """
     cm = confusion_matrix(y_true, y_pred)
     cm_percent = cm.astype('float') / cm.sum(axis=1)[:, np.newaxis]
 
@@ -74,51 +69,46 @@ def visualize_confusion_matrix(y_true, y_pred, title, class_names=['Хороше
     plt.show()
 
 def main():
-    """
-    Основная функция для выполнения всех шагов.
-    """
-    # Шаг 1: Загрузка и предобработка данных
+    
     data = load_and_preprocess_data('apple_quality.csv')
     if data is None or data.empty:
         print("Датасет пуст после предобработки.")
         return
 
-    # Шаг 2: Разделение данных
+    
     X = data.drop(columns=['Quality'])
     y = data['Quality']
     
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42, stratify=y)
 
-    # Шаг 3: Создание пайплайна для предобработки
+    
     numeric_features = ['Size', 'Weight', 'Sweetness', 'Crunchiness', 'Juiciness', 'Acidity', 'Ripeness']
     preprocessor = ColumnTransformer(
         transformers=[('scaler', StandardScaler(), numeric_features)],
         remainder='passthrough'
     )
     
-    # Шаг 4: Обучение и оценка моделей
+    
     log_reg_pipeline = Pipeline(steps=[('preprocessor', preprocessor),
                                        ('classifier', LogisticRegression(random_state=42))])
     
     rf_pipeline = Pipeline(steps=[('preprocessor', preprocessor),
                                   ('classifier', RandomForestClassifier(n_estimators=100, random_state=42))])
     
-    # Оценка Логистической регрессии
     log_reg_preds, log_reg_acc, log_reg_cm, log_reg_report = train_and_evaluate_model(
         log_reg_pipeline, X_train, y_train, X_test, y_test
     )
     
-    # Оценка Случайного леса
     rf_preds, rf_acc, rf_cm, rf_report = train_and_evaluate_model(
         rf_pipeline, X_train, y_train, X_test, y_test
     )
 
-    # Шаг 5: Сравнительный анализ и визуализация
+    
     print("\n" + "="*50)
     print("           Сравнительный анализ моделей          ")
     print("="*50)
     
-    # Создаем DataFrame для удобного сравнения
+    
     comparison_df = pd.DataFrame({
         'Метрика': ['Точность', 'Точность (Плохое)', 'Полнота (Плохое)', 'F1-мера (Плохое)',
                      'Точность (Хорошее)', 'Полнота (Хорошее)', 'F1-мера (Хорошее)'],
@@ -148,7 +138,7 @@ def main():
     print("           Визуализация матриц ошибок          ")
     print("="*50)
     
-    # Визуализация для обеих моделей
+
     visualize_confusion_matrix(y_test, log_reg_preds, "Логистической регрессии")
     visualize_confusion_matrix(y_test, rf_preds, "Случайного леса")
 
