@@ -1,9 +1,3 @@
-// ⚠️⚠️⚠️ ВСТАВЬ СЮДА ССЫЛКУ NGROK ИЗ COLAB ⚠️⚠️⚠️
-// (Ссылка, которую ты получаешь при запуске Ячейки 6)
-const API_BASE_URL = "https://unorthographically-tyronic-delmy.ngrok-free.dev";
-// ⚠️⚠️⚠️ (Не забудь вставить!)
-
-
 // Помощник для ожидания
 const wait = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
@@ -57,8 +51,8 @@ document.addEventListener('DOMContentLoaded', () => {
         ratingValue.textContent = parseFloat(ratingSlider.value).toFixed(1);
     });
 
-    // 1. Загружаем жанры с бэкенда (ИЗМЕНЕНО)
-    fetch(`${API_BASE_URL}/genres`) // 👈 Добавлена API_BASE_URL
+    // 1. Загружаем жанры с бэкенда (ИЗМЕНЕНО: БЕЗ API_BASE_URL)
+    fetch('/genres') // 👈 Снова относительный путь
         .then(res => {
             if (!res.ok) { throw new Error(`Network response was not ok: ${res.statusText}`); }
             return res.json();
@@ -95,8 +89,8 @@ document.addEventListener('DOMContentLoaded', () => {
         clapperboard.classList.add('clap');
         ticketWrapper.classList.add('eaten');
 
-        // В этот момент запрашиваем данные у Python (ИЗМЕНЕНО)
-        const responsePromise = fetch(`${API_BASE_URL}/cluster?genre=${genre}&rating=${rating}`); // 👈 Добавлена API_BASE_URL
+        // В этот момент запрашиваем данные у Python (ИЗМЕНЕНО: БЕЗ API_BASE_URL)
+        const responsePromise = fetch(`/cluster?genre=${genre}&rating=${rating}`); // 👈 Снова относительный путь
 
         await wait(300); // Ждем хлопок
 
