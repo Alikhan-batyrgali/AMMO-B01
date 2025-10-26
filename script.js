@@ -1,6 +1,6 @@
 // ⚠️⚠️⚠️ ВСТАВЬ СЮДА ССЫЛКУ NGROK ИЗ COLAB ⚠️⚠️⚠️
 // (Ссылка, которую ты получаешь при запуске Ячейки 6)
-const API_BASE_URL = "https://YOUR_NGROK_LINK_GOES_HERE.ngrok-free.app";
+const API_BASE_URL = "https://unorthographically-tyronic-delmy.ngrok-free.dev";
 // ⚠️⚠️⚠️ (Не забудь вставить!)
 
 
