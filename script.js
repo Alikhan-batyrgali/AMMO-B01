@@ -1,4 +1,10 @@
-const API_BASE_URL = "https://example.ngrok-free.app";
+// ⚠️⚠️⚠️ ВСТАВЬ СЮДА ССЫЛКУ NGROK ИЗ COLAB ⚠️⚠️⚠️
+// (Ссылка, которую ты получаешь при запуске Ячейки 6)
+const API_BASE_URL = "https://YOUR_NGROK_LINK_GOES_HERE.ngrok-free.app";
+// ⚠️⚠️⚠️ (Не забудь вставить!)
+
+
+// Помощник для ожидания
 const wait = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
 // Функция для отрисовки результатов
@@ -51,9 +57,12 @@ document.addEventListener('DOMContentLoaded', () => {
         ratingValue.textContent = parseFloat(ratingSlider.value).toFixed(1);
     });
 
-    // 1. Загружаем жанры с бэкенда
-    fetch('/genres')
-        .then(res => res.json())
+    // 1. Загружаем жанры с бэкенда (ИЗМЕНЕНО)
+    fetch(`${API_BASE_URL}/genres`) // 👈 Добавлена API_BASE_URL
+        .then(res => {
+            if (!res.ok) { throw new Error(`Network response was not ok: ${res.statusText}`); }
+            return res.json();
+        })
         .then(data => {
             genreSelect.innerHTML = '';
             (data.genres || []).forEach(genre => {
@@ -62,7 +71,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 option.textContent = genre;
                 genreSelect.appendChild(option);
             });
+        })
+        .catch(error => {
+            console.error('Ошибка при загрузке жанров:', error);
+            genreSelect.innerHTML = '<option value="">Ошибка загрузки</option>';
         });
+
 
     // 2. Слушаем клик по главной кнопке
     clusterBtn.addEventListener('click', async () => {
@@ -72,34 +86,23 @@ document.addEventListener('DOMContentLoaded', () => {
         const rating = ratingSlider.value;
 
         // --- НАЧАЛО АНИМАЦИИ ---
-
-        // 1. Обновляем текст на хлопушке
         document.getElementById('clapper-genre').textContent = genre;
         document.getElementById('clapper-rating').textContent = rating;
-
-        // 2. Прячем старые результаты
         resultsContainer.classList.remove('show');
-
-        // 3. Хлопушка выезжает (открытая)
         clapperboard.classList.add('show');
         await wait(600); 
 
-        // 4. Хлопушка "захлопывается"
         clapperboard.classList.add('clap');
-        
-        // 5. "Съедаем" билет
         ticketWrapper.classList.add('eaten');
 
-        // В этот момент запрашиваем данные у Python
-        const responsePromise = fetch(`/cluster?genre=${genre}&rating=${rating}`);
+        // В этот момент запрашиваем данные у Python (ИЗМЕНЕНО)
+        const responsePromise = fetch(`${API_BASE_URL}/cluster?genre=${genre}&rating=${rating}`); // 👈 Добавлена API_BASE_URL
 
         await wait(300); // Ждем хлопок
 
-        // 6. Хлопушка уезжает вниз
         clapperboard.classList.remove('show');
         await wait(600); 
 
-        // 7. Сбрасываем (возвращаем билет, готовим хлопушку)
         clapperboard.classList.remove('clap');
         ticketWrapper.classList.remove('eaten'); 
         
@@ -107,7 +110,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // 8. Дожидаемся ответа и рисуем результаты
         try {
-            const data = await responsePromise.then(res => res.json());
+            const response = await responsePromise;
+            if (!response.ok) {
+                throw new Error(`Network response was not ok: ${response.statusText}`);
+            }
+            const data = await response.json();
             renderResults(data);
             resultsContainer.classList.add('show');
         } catch (error) {
