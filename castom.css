@@ -1,6 +1,8 @@
 /* --- Базовые стили --- */
+/* Импорт шрифта из Google Fonts для использования в теле страницы. */
 @import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@400;700&display=swap');
 
+/* Основные стили для body: шрифт, фон, цвет текста, отступы. */
 body {
     font-family: 'Roboto Condensed', sans-serif;
     background-color: #141414;
@@ -11,6 +13,7 @@ body {
 }
 
 /* --- 1. Билет (Фильтры) --- */
+/* Обертка для билета: позиционирование, выравнивание, переходы для анимации. */
 .ticket-wrapper {
     position: relative;
     z-index: 10;
@@ -22,6 +25,7 @@ body {
     transition: opacity 0.3s ease-out 0.1s, transform 0.3s ease-out 0.1s;
 }
 
+/* Стили для самого билета: фон, цвет, размер, тени, граница. */
 .ticket {
     background: #fdf5e6;
     color: #333;
@@ -31,6 +35,7 @@ body {
     border: 1px dashed #aaa;
 }
 
+/* Заголовок билета: фон, цвет, отступы, позиционирование. */
 .ticket-header {
     background: #d9534f;
     color: white;
@@ -38,7 +43,11 @@ body {
     border-radius: 10px 10px 0 0;
     position: relative;
 }
+
+/* Стили для h2 в заголовке. */
 .ticket-header h2 { margin: 0; }
+
+/* "Дырочка" в билете: позиционирование, размер, фон, граница. */
 .ticket-hole {
     position: absolute;
     right: 20px;
@@ -50,22 +59,32 @@ body {
     border-radius: 50%;
     border: 2px solid #aaa;
 }
+
+/* Тело билета: отступы, grid для элементов, gap. */
 .ticket-body {
     padding: 25px;
     display: grid;
     gap: 15px;
 }
+
+/* Стили для label в теле билета. */
 .ticket-body label { font-weight: 700; }
+
+/* Стили для select и range в теле билета. */
 .ticket-body select, .ticket-body input[type="range"] {
     width: 100%;
     margin-top: 5px;
     box-sizing: border-box;
 }
+
+/* Дополнительные стили для select. */
 .ticket-body select {
     padding: 8px;
     border-radius: 5px;
     border: 1px solid #ccc;
 }
+
+/* Кнопка кластеризации: отступы, размер, фон, цвет, переходы. */
 #cluster-btn {
     margin-top: 25px;
     padding: 15px 30px;
@@ -79,13 +98,18 @@ body {
     cursor: pointer;
     transition: background-color 0.2s;
 }
+
+/* Hover для кнопки. */
 #cluster-btn:hover { background-color: #ec971f; }
+
+/* Класс для анимации "съеденного" билета. */
 .ticket-wrapper.eaten {
     opacity: 0;
     transform: scale(0.8);
 }
 
 /* --- 2. Хлопушка (Анимация) --- */
+/* Стили для хлопушки: позиционирование, размер, трансформации для анимации. */
 .clapperboard {
     position: fixed;
     z-index: 20;
@@ -96,9 +120,13 @@ body {
     transform: translateY(100%);
     transition: transform 0.6s cubic-bezier(0.68, -0.55, 0.27, 1.55);
 }
+
+/* Класс для показа хлопушки. */
 .clapperboard.show {
     transform: translateY(-20%);
 }
+
+/* Верхняя часть хлопушки: высота, фон с градиентом, трансформации. */
 .clap-stick {
     height: 40px;
     background: repeating-linear-gradient(-45deg, #111 0px, #111 20px, #fff 20px, #fff 40px);
@@ -107,12 +135,18 @@ body {
     transition: transform 0.2s ease-in-out;
     transform: rotate(0deg); /* Закрыта по умолчанию */
 }
+
+/* Анимация открытия хлопушки. */
 .clapperboard.show .clap-stick {
     transform: rotate(-15deg); /* Открывается при .show */
 }
+
+/* Анимация закрытия хлопушки. */
 .clapperboard.clap .clap-stick {
     transform: rotate(0deg); /* Закрывается при .clap */
 }
+
+/* Нижняя часть хлопушки: фон, цвет, отступы, граница. */
 .clap-board {
     background: #222;
     color: white;
@@ -120,6 +154,8 @@ body {
     border-radius: 0 0 5px 5px;
     border: 1px solid #444;
 }
+
+/* Ряды в нижней части: flex, justify, размер шрифта, граница. */
 .clap-board .row {
     display: flex;
     justify-content: space-between;
@@ -127,9 +163,12 @@ body {
     padding: 8px 0;
     border-bottom: 1px solid #444;
 }
+
+/* Стили для первого span в ряду. */
 .clap-board .row span:first-child { font-weight: 700; color: #aaa; }
 
 /* --- 3. Результаты (Кластеры) --- */
+/* Контейнер результатов: позиционирование, отступы, переходы для анимации. */
 .results-container {
     position: relative;
     z-index: 5;
@@ -138,30 +177,66 @@ body {
     transform: translateY(50px);
     transition: opacity 0.5s ease-out, transform 0.5s ease-out;
 }
+
+/* Класс для показа контейнера результатов. */
 .results-container.show {
     opacity: 1;
     transform: translateY(0);
 }
+
+/* Новый класс для панели сортировки: отступы, выравнивание. */
+.sort-bar {
+    margin-bottom: 20px;
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+}
+
+/* Стили для кнопок сортировки: фон, цвет, отступы, переходы. */
+.sort-btn {
+    padding: 10px 20px;
+    background-color: #f0ad4e;
+    color: #333;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+/* Hover для кнопок сортировки. */
+.sort-btn:hover {
+    background-color: #ec971f;
+}
+
+/* Каждый кластер: отступы, граница. */
 .cluster {
     margin-bottom: 40px;
     border-top: 2px solid #f0ad4e;
     padding-top: 15px;
 }
+
+/* h3 в кластере: размер шрифта. */
 .cluster h3 {
     font-size: 1.8em;
     margin-top: 0;
 }
+
+/* Grid для карточек фильмов: авто-заполнение, gap. */
 .cluster-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
     gap: 20px;
 }
+
+/* Карточка фильма: фон, скругления, тени. */
 .movie-card {
     background: #222;
     border-radius: 5px;
     overflow: hidden;
     box-shadow: 0 4px 10px rgba(0,0,0,0.3);
 }
+
+/* Изображение в карточке: размер, object-fit. */
 .movie-card img {
     width: 100%;
     height: 300px;
@@ -169,8 +244,17 @@ body {
     display: block;
     background-color: #333; /* Фон для битых картинок */
 }
+
+/* Инфо в карточке: отступы. */
 .movie-card-info { padding: 15px; }
+
+/* h4 в инфо: отступы. */
 .movie-card-info h4 { margin: 0 0 5px 0; font-size: 1.1em; }
+
+/* p в инфо: отступы, цвет. */
 .movie-card-info p { margin: 0; color: #aaa; }
+
+/* Рейтинг в инфо: жирный шрифт. */
 .movie-card-info .rating {
     font-weight: 700;
+}
