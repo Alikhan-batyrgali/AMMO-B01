@@ -420,9 +420,9 @@ body {
  */
 .cluster {
     margin-bottom: 60px; /* Увеличили отступ для большего "воздуха" и драмы */
-    padding-top: 25px; /* Место для нашей эпической линии */
+    padding-top: 20px; /* Место для нашей эпической линии */
     position: relative; /* Для позиционирования псевдо-элементов */
-    box-shadow: 0 4px 15px rgba(240, 173, 78, 0.2); /* Легкая тень для глубины, как от сияния */
+    box-shadow: 0 6px 15px rgba(240, 173, 78, 0.2); /* Легкая тень для глубины, как от сияния */
     border-radius: 8px; /* Закругленные углы для мягкости, как в фэнтези-мире */
     overflow: hidden; /* Чтобы анимации не вылезали */
     transition: transform 0.3s ease, box-shadow 0.3s ease; /* Плавные переходы для интерактива */
@@ -464,9 +464,11 @@ body {
         /* Слой 2: "Металлическая линия" с градиентом от краев к центру */
         linear-gradient(
             to right,
-            rgba(200, 100, 50, 0.5) 0%, /* Края: темный оранжевый */
+            #ffd700 -50%,
+            rgba(255, 255, 255, 0.5) 20%, /* Края: темный оранжевый */
             #ffd700 50%, /* Центр: золотой (gold) для роскоши */
-            rgba(200, 100, 50, 0.5) 100%
+            rgba(255, 255, 255, 0.5) 80%,
+            #ffd700 150%
         ),
         /* Слой 3: "Магические искры" – шумовой градиент для текстуры, как звезды или магия */
         radial-gradient(
@@ -477,7 +479,7 @@ body {
     
     /* * Размеры фонов: Подстраиваем для динамики */
     background-size:
-        300px 100px, /* "Портал": шире и выше для большего свечения */
+        1000px 100px, /* "Портал": шире и выше для большего свечения */
         100% 6px, /* "Линия": толще для заметности */
         200% 100%; /* "Искры": растянуты для покрытия, с повторением */
     
@@ -491,7 +493,7 @@ body {
     background-repeat: no-repeat, no-repeat, repeat;
     
     /* * Анимация: Пульсация света для фантазии – как будто линия дышит */
-    animation: pulse-glow 2s infinite alternate ease-in-out;
+    animation: pulse-glow 1s infinite alternate ease-in-out;
 }
 
 /* * Новый псевдо-элемент ::after: Дополнительные "лучи света" или "аура".
@@ -510,7 +512,7 @@ body {
         transparent 70%
     );
     opacity: 0.6; /* Полупрозрачный для мягкости */
-    animation: ray-fade 3s infinite alternate ease-in-out; /* Анимация угасания */
+    animation: ray-fade 2s infinite alternate ease-in-out; /* Анимация угасания */
 }
 
 /* * Ключевые кадры анимаций: Делаем все живым и фантастическим */
@@ -522,7 +524,7 @@ body {
         transform: scale(1);
     }
     100% {
-        opacity: 1;
+        opacity: 2;
         transform: scale(1.05); /* Легкое расширение */
     }
 }
@@ -539,6 +541,117 @@ body {
     }
 }
 
+.movie-card {
+    background: linear-gradient(to bottom, #333, #222); /* Градиент для глубины, как ночное небо */
+    border-radius: 8px; /* Мягкие углы для стиля */
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.4); /* Базовая тень для объема */
+    position: relative; /* Для позиционирования псевдо-элементов */
+    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Плавные переходы только на hover */
+    cursor: pointer; /* Указатель, что это интерактивно */
+}
+
+/* * Hover-эффект: При наведении карточка "оживает" – поднимается, сияет и добавляет анимации.
+ * Все динамика только здесь, без hover – статично.
+ */
+.movie-card:hover {
+    transform: translateY(-8px); /* Подъем для "левитации" */
+    box-shadow: 0 8px 25px rgba(255, 100, 50, 0.5); /* Теплая тень, как от кино-проектора */
+}
+
+/* * Изображение: Базовый стиль + фантазия.
+ * Добавляем overlay для эффектов и анимацию на hover.
+ */
+.movie-card img {
+    width: 100%;
+    height: 300px;
+    object-fit: cover;
+    display: block;
+    background-color: #333; /* Для битых изображений */
+    transition: transform 0.5s ease; /* Плавный зум на hover */
+}
+
+/* * Hover для изображения: Зум и яркость для динамики. */
+.movie-card:hover img {
+    transform: scale(1.1); /* Легкий зум внутрь */
+    filter: brightness(1.2); /* Увеличиваем яркость, как будто подсветка */
+}
+
+/* * Псевдо-элемент ::before: "Магический overlay" – градиентный блик или "кино-эффект".
+ * Статичный по умолчанию, анимируется только на hover.
+ */
+.movie-card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(
+        circle at 50% 50%,
+        rgba(255, 150, 50, 0.2) 0%, /* Центр: теплый свет */
+        transparent 70%
+    );
+    opacity: 0; /* Скрыт по умолчанию */
+    transition: opacity 0.3s ease; /* Появление на hover */
+    pointer-events: none; /* Не мешает кликам */
+}
+
+/* * Hover: Активируем overlay и добавляем анимацию пульсации. */
+.movie-card:hover::before {
+    opacity: 1; /* Появляется */
+    animation: pulse-glow 1.5s infinite alternate ease-in-out; /* Пульсация света */
+}
+
+/* * Псевдо-элемент ::after: "Лучи света" или "кино-луч" снизу.
+ * Только на hover для фантазии, как проектор.
+ */
+.movie-card::after {
+    content: "";
+    position: absolute;
+    bottom: -20px;
+    left: 0;
+    width: 100%;
+    height: 40px;
+    background: linear-gradient(to top, rgba(255, 200, 100, 0.3), transparent);
+    opacity: 0; /* Скрыт */
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    pointer-events: none;
+}
+
+/* * Hover: Появляются лучи и двигаются вверх. */
+.movie-card:hover::after {
+    opacity: 0.7;
+    transform: translateY(-10px); /* Подъем */
+    animation: ray-fade 2s infinite alternate ease-in-out; /* Мигающие лучи */
+}
+
+/* * Ключевые кадры анимаций: Только активируются на hover */
+
+/* Пульсация для ::before – свет мигает */
+@keyframes pulse-glow {
+    0% {
+        opacity: 0.8;
+        transform: scale(1);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1.05);
+    }
+}
+
+/* Угасание для ::after – лучи "дышат" */
+@keyframes ray-fade {
+    0% {
+        opacity: 0.5;
+        transform: translateY(0);
+    }
+    100% {
+        opacity: 0.8;
+        transform: translateY(-5px);
+    }
+}
+
 /* h3 в кластере: размер шрифта. */
 .cluster h3 {
     font-size: 1.8em;
@@ -550,23 +663,6 @@ body {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
     gap: 20px;
-}
-
-/* Карточка фильма: фон, скругления, тени. */
-.movie-card {
-    background: #222;
-    border-radius: 5px;
-    overflow: hidden;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-}
-
-/* Изображение в карточке: размер, object-fit. */
-.movie-card img {
-    width: 100%;
-    height: 300px;
-    object-fit: cover;
-    display: block;
-    background-color: #333; /* Фон для битых картинок */
 }
 
 /* Инфо в карточке: отступы. */
