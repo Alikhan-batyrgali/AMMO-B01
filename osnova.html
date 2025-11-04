@@ -1,43 +1,56 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
+    <!-- Мета-теги для кодировки и viewport. -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Заголовок страницы. -->
     <title>Кластеризатор кино</title>
-    <link rel="stylesheet" href="castom.css"> 
+    <!-- Подключение CSS файла (с опечаткой в имени, но оставляем как есть). -->
+    <link rel="stylesheet" href="castom.css">
 </head>
 <body>
-
+    <!-- Обертка для интерфейса ввода (билет). -->
     <div class="ticket-wrapper" id="ticket-wrapper">
+        <!-- Сам билет с заголовком и телом. -->
         <div class="ticket">
+            <!-- Заголовок билета. -->
             <div class="ticket-header">
                 <h2>Билет в кино</h2>
                 <span class="ticket-hole"></span>
             </div>
+            <!-- Тело билета с фильтрами. -->
             <div class="ticket-body">
+                <!-- Выбор жанра. -->
                 <label for="genre-select">Выберите жанр:</label>
                 <select id="genre-select">
-                    </select>
-                
+                </select>
+               
+                <!-- Слайдер минимального рейтинга. -->
                 <label for="rating-slider">Мин. рейтинг: <span id="rating-value">7.0</span></label>
                 <input type="range" id="rating-slider" min="0" max="10" step="0.1" value="7.0">
             </div>
         </div>
+        <!-- Кнопка для запуска кластеризации. -->
         <button id="cluster-btn">Кластеризировать!</button>
     </div>
-
+    
+    <!-- Хлопушка для анимации. -->
     <div class="clapperboard" id="clapperboard">
         <div class="clap-stick" id="clap-stick"></div>
+        <!-- Информация на хлопушке. -->
         <div class="clap-board">
             <div class="row"><span>GENRE</span><span id="clapper-genre"></span></div>
             <div class="row"><span>RATING</span><span id="clapper-rating"></span></div>
             <div class="row"><span>TAKE</span><span>01</span></div>
         </div>
     </div>
-
+    
+    <!-- Контейнер для результатов кластеризации. -->
     <div class="results-container" id="results-container">
-        </div>
-
-    <script src="script.js"></script> 
+    </div>
+    
+    <!-- Подключение JS файла. -->
+    <script src="script.js"></script>
 </body>
 </html>
