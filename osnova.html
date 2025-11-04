@@ -1,395 +1,79 @@
-/* --- Базовые стили --- */
-/* Импорт шрифта из Google Fonts для использования в теле страницы. */
-@import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@400;700&display=swap');
-
-/* Основные стили для body: шрифт, фон, цвет текста, отступы. */
-body {
-    font-family: 'Roboto Condensed', sans-serif;
-    background-color: #141414;
-    color: white;
-    margin: 0;
-    padding: 40px;
-    overflow-x: hidden;
-}
-
-/* --- 1. Билет (Фильтры) --- */
-/* Обертка для билета: позиционирование, выравнивание, переходы для анимации. */
-.ticket-wrapper {
-    position: relative;
-    z-index: 10;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    min-height: 80vh;
-    transition: opacity 0.3s ease-out 0.1s, transform 0.3s ease-out 0.1s;
-}
-
-/* Стили для самого билета: фон, цвет, размер, тени, граница. */
-/* * Базовый билет: Усиливаем фантазию – делаем его как магический артефакт из кино-мира.
- * Добавляем градиент, текстуру "бумаги", глубокие тени и готовим к анимациям.
- */
-.ticket {
-    background: linear-gradient(to bottom, #f14242, #b71c1c); /* Градиент для "глубины" и огненного эффекта */
-    color: #fff; /* Белый текст для контраста */
-    width: 500px; /* Увеличили для эпичности */
-    border-radius: 15px; /* Мягкие углы */
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <!-- Мета-теги для кодировки и viewport. -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Заголовок страницы. -->
+    <title>Кластеризатор кино</title>
+    <!-- Подключение CSS файла (с опечаткой в имени, но оставляем как есть). -->
+    <link rel="stylesheet" href="castom.css">
+</head>
+<body>
+    <!-- Обертка для интерфейса ввода (билет). -->
+    <div class="ticket-wrapper" id="ticket-wrapper">
+        <!-- Сам билет с заголовком и телом. -->
+        <div class="ticket">
+            <!-- Заголовок билета. -->
+            <div class="ticket-header">
+                <h2>Билет в кино</h2>
+                <span class="ticket-hole"></span>
+                <span class="ticket-hole1"></span>
+                <span class="ticket-hole1-1"></span>
+                <span class="ticket-hole1-2"></span>
+                <span class="ticket-hole1-3"></span>
+                <span class="ticket-hole1-4"></span>
+                <span class="ticket-hole1-5"></span>
+                
+                <span class="ticket-hole2"></span>
+                <span class="ticket-hole3"></span>
+                <span class="ticket-hole3-1"></span>
+                <span class="ticket-hole3-2"></span>
+                <span class="ticket-hole3-3"></span>
+                <span class="ticket-hole3-4"></span>
+                <span class="ticket-hole3-5"></span>
+                
+                <span class="ticket-hole4"></span>
+                <span class="ticket-hole5"></span>
+                <span class="ticket-hole5-1"></span>
+                <span class="ticket-hole5-2"></span>
+                <span class="ticket-hole5-3"></span>
+                <span class="ticket-hole5-4"></span>
+            </div>
+             
+            <!-- Тело билета с фильтрами. -->
+            <div class="ticket-body">
+                <!-- Выбор жанра. -->
+                <label for="genre-select">Выберите жанр:</label>
+                <select id="genre-select">
+                </select>
+               
+                <!-- Слайдер минимального рейтинга. -->
+                <label for="rating-slider">Мин. рейтинг: <span id="rating-value">7.0</span></label>
+                <input type="range" id="rating-slider" min="0" max="10" step="0.1" value="7.0">
+            </div>
+        </div>
+        <!-- Кнопка для запуска кластеризации. -->
+        <button id="cluster-btn">Кластеризировать!</button>
+    </div>
     
-    position: relative; /* Для позиционирования дырочек */
+    <!-- Хлопушка для анимации. -->
+    <div class="clapperboard" id="clapperboard">
+        <div class="clap-stick" id="clap-stick"></div>
+        <!-- Информация на хлопушке. -->
+        <div class="clap-board">
+            <div class="row"><span>ML CFilms STUDIO</span></div>
+            <div class="row"><span>GENRE</span><span id="clapper-genre"></span></div>
+            <div class="row"><span>RATING</span><span id="clapper-rating"></span></div>
+            <div class="row"><span>TAKE</span><span>01</span></div>
+        </div>
+    </div>
     
-    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Плавные переходы */
-    font-family: 'Poppins', sans-serif; /* Прикольный шрифт из прошлого чата */
-}
-
-
-/* * Hover-эффект: Билет "оживает" – пульсирует и сияет, как портал в кино. */
-.ticket:hover {
-    transform: scale(1.05); /* Легкий зум */
-    box-shadow: 0 5px 12px rgba(241, 66, 66, 0.7), inset 0 0 15px rgba(255, 255, 255, 0.4); /* Усиленное свечение */
-}
-
-/* * Заголовок: Градиентный фон, как неоновая вывеска. */
-.ticket-header {
-    background: linear-gradient(to right, #f14242, #ff5252); /* Яркий градиент */
-    color: #fff;
-    padding: 10px 150px;
+    <!-- Контейнер для результатов кластеризации. -->
+    <div class="results-container" id="results-container">
+    </div>
     
-    
-    position: relative;
-    text-shadow: 0 0 5px rgba(255, 255, 255, 0.5); /* Легкое свечение текста */
-}
-
-/* * H2 в заголовке: Анимированный текст для фантазии. */
-.ticket-header h2 {
-    margin: 0;
-    animation: glow-text 2s infinite alternate ease-in-out; /* Пульсация текста */
-}
-
-/* * Общий класс для больших "дырочек": Сделаем их как магические порталы с градиентом и анимацией. */
-.ticket-hole, .ticket-hole1, .ticket-hole2, .ticket-hole3 {
-    position: absolute;
-    width: 60px;
-    height: 60px;
-    background: #141414; 
-    border-radius: 50%;
-    border: 3px solid #141414;
-    
-    
-}
-
-/* * Специфические позиции для больших дырочек (с корректировкой для реализма). */
-.ticket-hole { right: -30px; top: -60%; }
-.ticket-hole1 { right: -30px; top: 350%; } /* Исправили на % для responsivity */
-.ticket-hole2 { left: -30px; top: 350%; }
-.ticket-hole3 { left: -30px; top: -60%; }
-
-/* * Маленькие дырочки: Как искры или звезды, с градиентом и анимацией. */
-.ticket-hole1-1, .ticket-hole1-2, .ticket-hole1-3, .ticket-hole1-4, .ticket-hole1-5, .ticket-hole1-6,
-.ticket-hole3-1, .ticket-hole3-2, .ticket-hole3-3, .ticket-hole3-4, .ticket-hole3-5, .ticket-hole3-6 {
-    position: absolute;
-    width: 15px;
-    height: 15px;
-    background: #141414;
-    border-radius: 50%;
-    border: 2px solid #141414;
-    
-    
-}
-
-/* * Позиции маленьких дырочек справа (исправили % для лучшей адаптации). */
-.ticket-hole1-1 { right: -12px; top: 300%; }
-.ticket-hole1-2 { right: -12px; top: 250%; }
-.ticket-hole1-3 { right: -12px; top: 200%; }
-.ticket-hole1-4 { right: -12px; top: 150%; }
-.ticket-hole1-5 { right: -12px; top: 100%; }
-
-
-/* * Позиции маленьких дырочек слева. */
-.ticket-hole3-1 { left: -12px; top: 300%; }
-.ticket-hole3-2 { left: -12px; top: 250%; }
-.ticket-hole3-3 { left: -12px; top: 200%; }
-.ticket-hole3-4 { left: -12px; top: 150%; }
-.ticket-hole3-5 { left: -12px; top: 100%; }
-
-
-/* * Верхняя и нижняя маленькие дырочки: Упростили и добавили фантазии. */
-.ticket-hole4, .ticket-hole5 {
-    position: absolute;
-    width: 40px;
-    height: 40px;
-    background: #141414;
-    border-radius: 50%;
-    border: 2px solid #141414;
-    animation: rotate-hole 5s infinite linear; /* Вращение для магии */
-}
-.ticket-hole4 { left: 75%; top: -25px; transform: translateX(-50%); }
-.ticket-hole5 { left: 75%; bottom: -185px; transform: translateX(-50%); }
-
-/* * Тело билета: Grid с отступами, добавили текстуру. */
-.ticket-body {
-    padding: 15px;
-    display: grid;
-    gap: 15px;
-    background: url('data:image/png;base64,...') repeat; /* Можно добавить текстуру бумаги, но base64 для примера */
-}
-
-.ticket-body select, .ticket-body input[type="range"] {
-    width: 65%;
-    margin-top: 5px;
-    margin-left: 25px;
-    box-sizing: border-box;
-}
-
-/* * Label: Жирный шрифт с тенью. */
-.ticket-body label {
-    font-weight: 700;
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
-}
-
-
-/* Пульсация текста */
-@keyframes glow-text {
-    0% { text-shadow: 0 0 5px rgba(255, 255, 255, 0.5); }
-    100% { text-shadow: 0 0 10px rgba(255, 255, 255, 1); }
-}
-
-
-
-/* Кнопка кластеризации: отступы, размер, фон, цвет, переходы. */
-#cluster-btn {
-    margin-top: 25px;
-    padding: 15px 30px;
-    font-size: 18px;
-    font-weight: 700;
-    font-family: 'Roboto Condensed', sans-serif;
-    background-color: #f0ad4e;
-    color: #333;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.2s;
-}
-
-/* Hover для кнопки. */
-#cluster-btn:hover { background-color: #ec971f; }
-
-/* Класс для анимации "съеденного" билета. */
-.ticket-wrapper.eaten {
-    opacity: 0;
-    transform: scale(0.8);
-}
-
-/* --- 2. Хлопушка (Анимация) --- */
-/* Стили для хлопушки: позиционирование, размер, трансформации для анимации. */
-.clapperboard {
-    position: fixed;
-    z-index: 20;
-    width: 750px; /* Увеличено */
-    left: 50%;
-    bottom: 0;
-    margin-left: -350px; /* Увеличено */
-    transform: translateY(100%);
-    transition: transform 0.6s cubic-bezier(0.68, -0.55, 0.27, 1.55);
-}
-
-/* Класс для показа хлопушки. */
-.clapperboard.show {
-    transform: translateY(-20%);
-}
-
-/* Верхняя часть хлопушки: высота, фон с градиентом, трансформации. */
-.clap-stick {
-    height: 60px;
-    background: repeating-linear-gradient(-45deg, #111 0px, #111 20px, #fff 20px, #fff 40px);
-    border-radius: 5px 5px 0 0;
-    transform-origin: bottom left;
-    transition: transform 0.2s ease-in-out;
-    transform: rotate(0deg); /* Закрыта по умолчанию */
-}
-
-/* Анимация открытия хлопушки. */
-.clapperboard.show .clap-stick {
-    transform: rotate(-15deg); /* Открывается при .show */
-}
-
-/* Анимация закрытия хлопушки. */
-.clapperboard.clap .clap-stick {
-    transform: rotate(0deg); /* Закрывается при .clap */
-}
-
-/* Нижняя часть хлопушки: фон, цвет, отступы, граница. */
-.clap-board {
-    height: 350px;
-    background: #222;
-    color: white;
-    padding: 20px;
-    border-radius: 0 0 5px 5px;
-    border: 1px solid #444;
-}
-
-/* Ряды в нижней части: flex, justify, размер шрифта, граница. */
-.clap-board .row {
-    display: flex;
-    justify-content: space-between;
-    font-size: 2.4em; /* Увеличено */
-    padding: 8px 0;
-    border-bottom: 1px solid #444;
-}
-
-/* Стили для первого span в ряду. */
-.clap-board .row span:first-child { font-weight: 700; color: #aaa; }
-
-/* --- 3. Результаты (Кластеры) --- */
-/* Контейнер результатов: позиционирование, отступы, переходы для анимации. */
-.results-container {
-    position: relative;
-    z-index: 5;
-    padding-top: 50px;
-    opacity: 0;
-    transform: translateY(50px);
-    transition: opacity 0.5s ease-out, transform 0.5s ease-out;
-}
-
-/* Класс для показа контейнера результатов. */
-.results-container.show {
-    opacity: 1;
-    transform: translateY(0);
-}
-
-/* Новый класс для панели сортировки: отступы, выравнивание. */
-.sort-bar {
-    margin-bottom: 20px;
-    display: flex;
-    gap: 10px;
-    justify-content: center;
-}
-
-/* Стили для кнопок сортировки: фон, цвет, отступы, переходы. */
-.sort-btn {
-    padding: 10px 20px;
-    background-color: #f0ad4e;
-    color: #333;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.2s;
-}
-
-/* Hover для кнопок сортировки. */
-.sort-btn:hover {
-    background-color: #ec971f;
-}
-
-/* Каждый кластер: отступы, граница. */
-/* * Каждый кластер:
- * Убираем старую рамку (border-top) и добавляем position: relative,
- * чтобы позиционировать нашу новую "линию".
- */
-.cluster {
-    margin-bottom: 40px;
-    padding-top: 15px; /* Оставляем отступ, чтобы было место для линии */
-    position: relative; /* Обязательно для позиционирования ::before */
-    /* border-top: 2px solid #f0ad4e; <-- Эта строка нам больше не нужна */
-}
-
-/* * Создаем саму линию с помощью псевдо-элемента ::before.
- * Он будет "нарисован" вверху элемента .cluster.
- */
-.cluster::before {
-    content: ""; /* Обязательно для ::before */
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    
-    /* * Высота нашей "линии" и "выпуклости".
-     * Вы можете сделать ее выше (например, 15px), если хотите, 
-     * чтобы выпуклость была более заметной.
-     */
-    height: 10px; 
-
-    /* * САМОЕ ГЛАВНОЕ: Многослойный фон.
-     * Мы накладываем два градиента друг на друга.
-     */
-    background:
-        /* * Слой 1: "Выпуклость" и "Свет лампы".
-         * Это радиальный градиент (круг) в центре вверху.
-         */
-        radial-gradient(
-            circle at 50% 0, /* Начинается в центре (50%) вверху (0) */
-            
-            /* --- ВАШИ ЦВЕТА ДЛЯ "ЛАМПЫ" --- */
-            rgba(255, 220, 150, 0.8) 0%, /* <-- Замените на ЦВЕТ ЦЕНТРА "лампы" */
-            transparent 40%              /* <-- Уходит в прозрачный */
-        ),
-
-        /* * Слой 2: "Линия" с градиентом от краев к центру.
-         * Это линейный градиент.
-         */
-        linear-gradient(
-            to right, /* Направление градиента */
-            
-            /* --- ВАШИ ЦВЕТА ДЛЯ "ЛИНИИ" --- */
-            rgba(240, 173, 78, 0.3) 0%,  /* <-- Замените на ЦВЕТ КРАЯ линии */
-            #f0ad4e 50%,                 /* <-- Замените на ЦВЕТ ЦЕНТРА линии */
-            rgba(240, 173, 78, 0.3) 100% /* <-- Замените на ЦВЕТ КРАЯ линии */
-        );
-
-    /* * Настраиваем размеры и положение для каждого слоя фона.
-     */
-    
-    /* * background-size:
-     * 1. "Лампа": 100px в ширину и 10px в высоту. (Можете изменить 100px)
-     * 2. "Линия": 100% в ширину и 2px в высоту (как ваш старый border).
-     */
-    background-size: 
-        100px 10px, /* Размер "лампы" */
-        100% 2px;   /* Размер "линии" */
-
-    /* * background-position:
-     * 1. "Лампа": вверху по центру.
-     * 2. "Линия": вверху по всей ширине.
-     */
-    background-position:
-        center top,
-        left top;
-    
-    /* Фоны не должны повторяться */
-    background-repeat: no-repeat;
-}
-
-/* h3 в кластере: размер шрифта. */
-.cluster h3 {
-    font-size: 1.8em;
-    margin-top: 0;
-}
-
-/* Grid для карточек фильмов: авто-заполнение, gap. */
-.cluster-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    gap: 20px;
-}
-
-/* Карточка фильма: фон, скругления, тени. */
-.movie-card {
-    background: #222;
-    border-radius: 5px;
-    overflow: hidden;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-}
-
-
-/* Инфо в карточке: отступы. */
-.movie-card-info { padding: 15px; }
-
-/* h4 в инфо: отступы. */
-.movie-card-info h4 { margin: 0 0 5px 0; font-size: 1.1em; }
-
-/* p в инфо: отступы, цвет. */
-.movie-card-info p { margin: 0; color: #aaa; }
-
-/* Рейтинг в инфо: жирный шрифт. */
-.movie-card-info .rating {
-    font-weight: 700;
-}
+    <!-- Подключение JS файла. -->
+    <script src="script.js"></script>
+</body>
+</html>
