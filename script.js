@@ -24,6 +24,29 @@ function sortData(type) {
     });
 }
 
+// Асинхронная функция для запуска анимации (общая для кластеризации и сортировки).
+async function playAnimation() {
+    const clapperboard = document.getElementById('clapperboard');
+    const ticketWrapper = document.getElementById('ticket-wrapper');
+    const resultsContainer = document.getElementById('results-container');
+
+    // Устанавливаем значения на хлопушке (если нужно, но для сортировки можно пропустить или использовать текущие).
+    // Здесь оставляем как есть, или можно сбросить.
+
+    resultsContainer.classList.remove('show'); // Скрываем результаты.
+    clapperboard.classList.add('show'); // Показываем хлопушку.
+    await wait(600); // Ждем анимацию.
+    
+    clapperboard.classList.add('clap'); // Хлопок.
+    ticketWrapper.classList.add('eaten'); // "Съедаем" билет.
+    
+    await wait(300); // Ждем хлопок.
+    clapperboard.classList.remove('show'); // Скрываем хлопушку.
+    await wait(600);
+    clapperboard.classList.remove('clap'); // Сбрасываем хлопок.
+    ticketWrapper.classList.remove('eaten'); // Возвращаем билет.
+}
+
 // Функция для отрисовки результатов.
 // Очищает контейнер, добавляет панель сортировки (если данные есть), сортирует данные (если нужно) и рендерит кластеры.
 function renderResults(data) {
@@ -47,17 +70,23 @@ function renderResults(data) {
     container.appendChild(sortBar);
     
     // Прикрепляем слушатели к кнопкам сортировки (после создания).
-    document.getElementById('sort-none').addEventListener('click', () => {
+    document.getElementById('sort-none').addEventListener('click', async () => {
+        await playAnimation(); // Анимация перед сортировкой.
         sortData('none');
         renderResults(currentData);
+        document.getElementById('results-container').classList.add('show'); // Показываем после.
     });
-    document.getElementById('sort-title').addEventListener('click', () => {
+    document.getElementById('sort-title').addEventListener('click', async () => {
+        await playAnimation(); // Анимация перед сортировкой.
         sortData('title');
         renderResults(currentData);
+        document.getElementById('results-container').classList.add('show'); // Показываем после.
     });
-    document.getElementById('sort-rating').addEventListener('click', () => {
+    document.getElementById('sort-rating').addEventListener('click', async () => {
+        await playAnimation(); // Анимация перед сортировкой.
         sortData('rating');
         renderResults(currentData);
+        document.getElementById('results-container').classList.add('show'); // Показываем после.
     });
     
     // Рендерим кластеры.
@@ -133,23 +162,12 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('clapper-genre').textContent = genre;
         document.getElementById('clapper-rating').textContent = rating;
         
-        resultsContainer.classList.remove('show'); // Скрываем результаты.
-        clapperboard.classList.add('show'); // Показываем хлопушку.
-        await wait(600); // Ждем анимацию.
-        
-        clapperboard.classList.add('clap'); // Хлопок.
-        ticketWrapper.classList.add('eaten'); // "Съедаем" билет.
+        await playAnimation(); // Теперь используем общую анимацию.
         
         // Запрашиваем данные у сервера (относительный путь).
         const responsePromise = fetch(`/cluster?genre=${genre}&rating=${rating}`);
         
-        await wait(300); // Ждем хлопок.
-        clapperboard.classList.remove('show'); // Скрываем хлопушку.
-        await wait(600);
-        clapperboard.classList.remove('clap'); // Сбрасываем хлопок.
-        ticketWrapper.classList.remove('eaten'); // Возвращаем билет.
-        
-        // --- КОНЕЦ АНИМАЦИИ ---
+        // --- КОНЕЦ АНИМАЦИИ (запрос идет параллельно, но ждем его ниже) ---
         
         // Обрабатываем ответ от сервера.
         try {
