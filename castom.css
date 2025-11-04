@@ -518,6 +518,18 @@ body {
     }
 }
 
+.cluster h3 {
+    font-size: 1.8em;
+    margin-top: 0;
+}
+
+/* Grid для карточек фильмов: авто-заполнение, gap. */
+.cluster-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 20px;
+}
+
 /* Инфо в карточке: отступы. */
 .movie-card-info { padding: 15px; }
 
