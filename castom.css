@@ -5,11 +5,21 @@
 /* Основные стили для body: шрифт, фон, цвет текста, отступы. */
 body {
     font-family: 'Roboto Condensed', sans-serif;
-    background-color: #141414;
-    color: white;
+    background: radial-gradient(
+        circle at var(--mouse-x, 50%) var(--mouse-y, 50%), /* Центр градиента следует за мышью */
+        #141414 30%, /* Центр: чистый #141414 для "темного ядра" */
+        rgba(20, 20, 20, 0.9) 90%, /* Мягкий переход к чуть светлее серому */
+        
+        
+        transparent 100% /* Уходит в прозрачный, но фон все равно #141414 под ним */
+    ),
+    #141414; /* Базовый цвет для центра и всего экрана */
+    background-size: cover; /* Полный экран, без изменений размеров */
+    color: rgb(34, 32, 32);
     margin: 0;
     padding: 40px;
     overflow-x: hidden;
+    cursor: default; /* Для плавности */
 }
 
 /* --- 1. Билет (Фильтры) --- */
